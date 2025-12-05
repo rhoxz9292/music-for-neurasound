@@ -242,12 +242,12 @@ const MindPlayer = ({ currentMode, onBack }) => {
   return (
     <div className="h-full flex flex-col items-center justify-between py-6 px-6 relative z-10 animate-fade-in">
       {/* REAL AUDIO ELEMENT (HIDDEN) */}
-      {/* Cuando tengas tus archivos, cambia src en Dashboard */}
       <audio 
         ref={audioRef} 
         src={currentMode.audioSrc} 
         loop 
         onEnded={() => setIsPlaying(false)}
+        crossOrigin="anonymous" // IMPORTANT for loading from external repo
       />
 
       {/* Header */}
@@ -395,11 +395,15 @@ const SensitivityLab = ({ onBack }) => {
 const Dashboard = ({ navigate }) => {
   const mood = 'flow'; // 'stress' or 'flow'
   
-  // NOTA PARA GITHUB:
-  // Reemplaza estas URLs con rutas locales como '/music/mi-archivo.mp3'
-  // y pon el archivo en tu carpeta 'public/music'
-  const DEMO_AUDIO_1 = "https://actions.google.com/sounds/v1/water/waves_crashing.ogg"; 
-  const DEMO_AUDIO_2 = "https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg";
+  // =================================================================
+  // CONEXIÓN CON TU REPOSITORIO DE GITHUB
+  // =================================================================
+  // Usamos 'cdn.jsdelivr.net' para cargar los archivos rápido desde GitHub
+  const BASE_URL = "https://cdn.jsdelivr.net/gh/rhoxz9292/music-for-neurasound@main";
+  
+  const FOCUS_TRACK = `${BASE_URL}/focus.mp3`; 
+  const RELAX_TRACK = `${BASE_URL}/relax.mp3`;
+  const FLOW_TRACK  = `${BASE_URL}/flow.mp3`;
 
   return (
     <div className="h-full flex flex-col p-6 relative z-10 overflow-y-auto pb-20">
@@ -442,7 +446,7 @@ const Dashboard = ({ navigate }) => {
             trackName: 'Beta Waves Stream',
             color: 'from-cyan-500 to-blue-600', 
             gradient: 'from-[#06b6d4] to-[#3b82f6]',
-            audioSrc: DEMO_AUDIO_1 // TU ARCHIVO AQUÍ. Ej: "/music/focus.mp3"
+            audioSrc: FOCUS_TRACK 
           })}
           className="glass-card p-5 rounded-xl flex items-center justify-between group"
         >
@@ -464,7 +468,7 @@ const Dashboard = ({ navigate }) => {
             trackName: 'Alpha Calm',
             color: 'from-purple-500 to-pink-600', 
             gradient: 'from-[#8b5cf6] to-[#ec4899]',
-            audioSrc: DEMO_AUDIO_2 // TU ARCHIVO AQUÍ. Ej: "/music/relax.mp3"
+            audioSrc: RELAX_TRACK 
           })}
           className="glass-card p-5 rounded-xl flex items-center justify-between group"
         >
@@ -500,7 +504,7 @@ const NavBar = ({ activeTab, onNavigate }) => (
         trackName: 'Instant Flow',
         color: 'from-green-400 to-cyan-500', 
         gradient: 'from-[#10b981] to-[#06b6d4]',
-        audioSrc: 'https://actions.google.com/sounds/v1/water/waves_crashing.ogg'
+        audioSrc: 'https://cdn.jsdelivr.net/gh/rhoxz9292/music-for-neurasound@main/flow.mp3'
       })} 
       className={`p-4 rounded-full bg-gradient-to-r from-cyan-500 to-purple-500 text-white transform -translate-y-6 shadow-[0_0_20px_rgba(139,92,246,0.5)] border border-white/20`}
     >
